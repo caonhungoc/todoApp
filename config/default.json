@@ -1,0 +1,10 @@
+{
+    "dbUrl": "mongodb+srv://ngoccao:Pass1234__@cluster0.lanpk.mongodb.net/testDB?retryWrites=true&w=majority",
+    "port": 3333,
+    "jwtSignature": "demojwt",
+    "sqlDbUrl": "sql6.freesqldatabase.com",
+    "sqlDbName": "sql6417844",
+    "sqlDbUserName": "sql6417844",
+    "sqlDbPassword": "kVFRS1p84v",
+    "sqlDbPort": 3306
+}
