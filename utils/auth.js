@@ -11,17 +11,26 @@ const auth = () => async (req, res, next) => {
     // If not, it will be called with the error.
     const decoded = await jwt.verify(token, jwtSignature);
 
-    // find user have admin right
-    const foundedUser = await User.findOne({
-      _id: decoded._id,
-      user_type: "admin"
+    // find user have right to access
+    const foundUser = await User.user.findAll({
+      where: {
+        id: decoded.id
+      }
     });
 
-    if (!foundedUser)
+    if (!foundUser)
       return res.status(401).send({ message: "you are not authorized!!" });
 
-    req.user = foundedUser;
+    req.user = foundUser[0];
     req.token = token;
+
+    if(1 === foundUser[0].roleID) { // admin role
+      req.role = "admin";
+    } else if(2 === foundUser[0].roleID) { // basic role
+      req.role = "basic";
+    } else {
+      req.role = "unknown";
+    }
 
     next();
   } catch (err) {

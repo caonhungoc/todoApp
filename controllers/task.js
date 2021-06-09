@@ -1,45 +1,47 @@
 const User = require("./../models/user");
+const Task = require('./../models/task');
 const { body,validationResult } = require("express-validator");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const config = require("config");
-const jwtSignature = config.get('jwtSignature');
 
-exports.user_create_post = [
+exports.task_create_post = [
     // Validate and sanitise fields.
-    body('name', 'name must not be empty.').trim().isLength({ min: 1 }).escape(),
-    body('email', 'email must not be empty.').trim().isLength({ min: 1 }).escape(),
-    body('password', 'password must not be empty.').trim().isLength({ min: 1 }).escape(),
+    body('title', 'name must not be empty.').trim().isLength({ min: 1 }).escape(),
+    body('description', 'description must not be empty.').trim().isLength({ min: 1 }).escape(),
 
     // Process request after validation and sanitization.
     async (req, res, next) => {
         try {
-            const { email, password, name } = req.body;
+            const { title, description } = req.body;
             // Extract the validation errors from a request.
             const errors = validationResult(req);
 
             // Create a user object with escaped and trimmed data.
             if(errors.isEmpty()) {
-                // check that is this email existed?
+                // check that is this user in db? 
                 let foundUser = await User.user.findAll({
                     where: {
-                        email: email
+                        id: req.user.id
                     }
                 });
-                // SELECT * FROM USERs WHERE USERs.email = email;
+                // SELECT * FROM USERs WHERE USERs.id = id;
 
-                if(!foundUser[0]) {
-                    // hash password
-                    let hashPassword = await bcrypt.hash(password, 8);
-                    let user = await User.user.create({ 
-                        email: email,
-                        password: hashPassword,
-                        name: name
+                if(foundUser[0]) {
+                    // need get statusID from DB
+                    let taskData = {
+                        title: title,
+                        userID: req.user.id,
+                        description: description,
+                        createdDate: Date.now() 
+                    }
+                    await Task.task.create({ 
+                        title: title,
+                        userID: req.user.id,
+                        description: description,
+                        createdDate: Date.now() 
                     });
 
-                    return res.send( {email: email});
+                    return res.send( {data: taskData});
                 } else {
-                    return res.send("user existed!");
+                    return res.send("user not found!");
                 }
             }
             else {
@@ -47,6 +49,7 @@ exports.user_create_post = [
             }
         } catch(e) {
             console.log(e);
+            return res.send("something wrong!");
         }
     } 
 ];
