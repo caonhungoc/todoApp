@@ -1,19 +1,12 @@
 const Sequelize = require('sequelize');
 const db = require('../utils/db');
 
-const user = db.sequelize.define('USERs', {
+const role = db.sequelize.define('ROLEs', {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true
   },
-  name: Sequelize.STRING,
-  email: Sequelize.STRING,
-  password: Sequelize.STRING,
-  roleID: Sequelize.INTEGER,
-  status: {
-    type: Sequelize.INTEGER,
-    allowNull: true
-  }
+  name: Sequelize.STRING
 }, {
   timestamps: false,
 
@@ -24,4 +17,4 @@ const user = db.sequelize.define('USERs', {
   updatedAt: false
 })
 
-module.exports.user = user;
+module.exports.role = role;

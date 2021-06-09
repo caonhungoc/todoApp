@@ -1,17 +1,36 @@
-const mongoose = require('mongoose');
 const config = require("config");
-// const mongoDB = 'mongodb+srv://ngoccao:Pass1234__@cluster0.lanpk.mongodb.net/testDB?retryWrites=true&w=majority';
-const mongoDB = config.get("dbUrl");
+const Sequelize = require('sequelize');
+
+const sqlDbUrl = config.get('sqlDbUrl');
+const sqlDbName = config.get('sqlDbName');
+const sqlDbUserName = config.get('sqlDbUserName');
+const sqlDbPassword = config.get('sqlDbPassword');
+const sqlDbPort = config.get('sqlDbPort');
+
+
+const sequelize = new Sequelize(sqlDbName, sqlDbUserName, sqlDbPassword, {
+    // the sql dialect of the database
+    // currently supported: 'mysql', 'sqlite', 'postgres', 'mssql'
+    dialect: 'mysql',
+
+    // custom host; default: localhost
+    host: sqlDbUrl,
+    // for postgres, you can also specify an absolute path to a directory
+    // containing a UNIX socket to connect over
+    // host: '/sockets/psql_sockets'.
+
+    // custom port; default: dialect default
+    port: sqlDbPort
+})
 
 function connectDB() {
-    mongoose.connect(mongoDB, { useNewUrlParser: true , useUnifiedTopology: true}).then(() => {
-        console.log("connect database sucesssfully");
-    });
+    sequelize.authenticate()
+    .then(() => {
+        console.log("database connected ...");
+    })
+    .catch(err => console.log("error1 " + err))
 }
 
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+module.exports.sequelize = sequelize;
+module.exports.connectDB = connectDB;
 
-module.exports = {
-    connectDB,
-}
