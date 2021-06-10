@@ -15,16 +15,25 @@ router.use("/", auth.auth(), (req, res, next) => { // check permission
 
 });
 
-// POST request for create a task
+// POST request to create a task
 router.post('/', task_controller.task_create_post);
 
-// // GET request for create a task
-// router.get('/', task_controller.task_get_get);
+// GET request to get a task
+router.get('/', task_controller.task_get_get);
 
-// // UPDATE request for create a task
-// router.put('/', task_controller.task_update_put);
+// GET request to create a task
+router.get('/all', task_controller.task_getall_get);
 
-// // DELETE request for create a task
-// router.delete('/', task_controller.task_delete_delete);
+// PUT request to update a task
+router.put('/update', task_controller.task_update_put);
+
+// PUT request to delete a task
+router.put('/remove', task_controller.task_remove_put); // remove task and can't re-open, change status to removed
+
+// PUT request to re-open a task
+router.put('/reopen', task_controller.task_reopen_put); // re-open task that was not removed, change status to re-open
+
+// PUT request to close a task
+router.put('/close', task_controller.task_close_put); // change status to close
 
 module.exports = router;
