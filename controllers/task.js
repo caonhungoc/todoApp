@@ -75,7 +75,8 @@ exports.task_get_get = [
             if(errors.isEmpty()) {
                 let foundTask = await Task.task.findAll({
                     where: {
-                        id: id
+                        id: id,
+                        userID: req.user.id
                     }
                 });
                 // SELECT * FROM USERs WHERE USERs.email = email;
@@ -150,7 +151,8 @@ exports.task_update_put = [
             if(errors.isEmpty()) {
                 let foundTask = await Task.task.findAll({
                     where: {
-                        id: id
+                        id: id,
+                        userID: req.user.id
                     }
                 });
 
@@ -161,7 +163,8 @@ exports.task_update_put = [
                         description:description 
                     }, {
                         where: {
-                            id: id
+                            id: id,
+                            userID: req.user.id
                         }
                     });
                     res.send("update successfully"); 
@@ -195,7 +198,8 @@ exports.task_remove_put = [
             if(errors.isEmpty()) {
                 let foundTask = await Task.task.findAll({
                     where: {
-                        id: id
+                        id: id,
+                        userID: req.user.id
                     }
                 });
 
@@ -205,7 +209,8 @@ exports.task_remove_put = [
                         statusID: REMOVED_STATUS
                     }, {
                         where: {
-                            id: id
+                            id: id,
+                            userID: req.user.id
                         }
                     });
                     res.send("remove successfully"); 
@@ -239,7 +244,8 @@ exports.task_reopen_put = [
             if(errors.isEmpty()) {
                 let foundTask = await Task.task.findAll({
                     where: {
-                        id: id
+                        id: id,
+                        userID: req.user.id
                     }
                 });
 
@@ -249,10 +255,11 @@ exports.task_reopen_put = [
                         statusID: RE_OPEN_STATUS
                     }, {
                         where: {
-                            id: id
+                            id: id,
+                            userID: req.user.id
                         }
                     });
-                    res.send("re-opene successfully"); 
+                    res.send("re-open successfully"); 
                 } else {
                     return res.send("task not found!");
                 }
@@ -283,7 +290,8 @@ exports.task_close_put = [
             if(errors.isEmpty()) {
                 let foundTask = await Task.task.findAll({
                     where: {
-                        id: id
+                        id: id,
+                        userID: req.user.id
                     }
                 });
 
@@ -293,7 +301,8 @@ exports.task_close_put = [
                         statusID: CLOSE_STATUS
                     }, {
                         where: {
-                            id: id
+                            id: id,
+                            userID: req.user.id
                         }
                     });
                     res.send("closed successfully"); 
