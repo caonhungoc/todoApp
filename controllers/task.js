@@ -2,10 +2,10 @@ const User = require("./../models/user");
 const Task = require('./../models/task');
 const { body,validationResult } = require("express-validator");
 
-const OPEN_STATUS = 1
-const CLOSE_STATUS = 2
-const RE_OPEN_STATUS = 3
-const REMOVED_STATUS = 4
+const OPEN_STATUS = 1;
+const CLOSE_STATUS = 2;
+const RE_OPEN_STATUS = 3;
+const REMOVED_STATUS = 4;
 
 exports.task_create_post = [
     // Validate and sanitise fields.
