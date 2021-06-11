@@ -1,23 +1,26 @@
 - To run this app:
-+ go to root foler
++ go to root folder
 + run command "npm install" to install dependent packages
 + run command "npm run devstart" to run app
 
 - APIs in this app:
-Admin:
-+ get "/admin" to go to default admin page
-+ get "/admin/all-user" to get all user
-+ get "/admin/all-task/:statusID" to get all task with certain statusID
 
 Task:
-+ post "/task" to create task
-+ get "/task" to get 1 task
-+ get "/task/all" to get all tasks
-+ put "/task/update" to update title and description of task
-+ put "/task/close" to close task
-+ put "/task/reopen" to re-open task
-+ put "/task/remove"  to remove task
++ /api/tasks - [post] create task
++ /api/tasks/:id - [get] single task
++ /api/tasks - [get] all tasks
++ /api/tasks/?status= -[get] tasks by status
++ /api/tasks/:id [put] update title and description of task
++ /api/tasks/close/:id - [delete] close task
++ /api/tasks/reopen/:id - [put] re-open task
++ /api/tasks/:id  - [delete] remove task
 
 User:
-+ post "/user/create" to create new user
-+ post "/user/login" to login
++ /api/user - [post] create new user
++ /api/user - [get] all users
+
+
+Authenicate:
++ /api/login - [post] login
+
+- Referrence: https://stackoverflow.com/questions/30967822/when-do-i-use-path-params-vs-query-params-in-a-restful-api
