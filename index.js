@@ -1,12 +1,13 @@
+require('module-alias/register');
 const express = require('express');
 const config = require("config");
 const app = express();
 const port = config.get('port');
-const db = require('./utils/db');
+const db = require('@util/db');
 
-const routeUser = require("./routes/user");
-const routeAdmin =  require("./routes/admin");
-const routeTask =  require("./routes/task");
+const routeUser = require("@route/user");
+const routeAdmin =  require("@route/admin");
+const routeTask =  require("@route/task");
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());

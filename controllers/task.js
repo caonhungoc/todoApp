@@ -1,11 +1,7 @@
-const User = require("./../models/user");
-const Task = require('./../models/task');
+// require('module-alias/register');
+const User = require("@model/user");
+const Task = require('@model/task');
 const { body,validationResult } = require("express-validator");
-
-const OPEN_STATUS = 1;
-const CLOSE_STATUS = 2;
-const RE_OPEN_STATUS = 3;
-const REMOVED_STATUS = 4;
 
 exports.task_create_post = [
     // Validate and sanitise fields.
@@ -203,10 +199,10 @@ exports.task_remove_put = [
                     }
                 });
 
-                if(foundTask[0] && REMOVED_STATUS !== foundTask[0].statusID) {
+                if(foundTask[0] && Task.REMOVED_STATUS !== foundTask[0].statusID) {
                     // change status of this task to close status
                     await Task.task.update({ 
-                        statusID: REMOVED_STATUS
+                        statusID: Task.REMOVED_STATUS
                     }, {
                         where: {
                             id: id,
@@ -249,10 +245,10 @@ exports.task_reopen_put = [
                     }
                 });
 
-                if(foundTask[0] && CLOSE_STATUS === foundTask[0].statusID) {
+                if(foundTask[0] && Task.CLOSE_STATUS === foundTask[0].statusID) {
                     // change status of this task to close status
                     await Task.task.update({ 
-                        statusID: RE_OPEN_STATUS
+                        statusID: Task.RE_OPEN_STATUS
                     }, {
                         where: {
                             id: id,
@@ -295,10 +291,10 @@ exports.task_close_put = [
                     }
                 });
 
-                if(foundTask[0] && (OPEN_STATUS === foundTask[0].statusID || RE_OPEN_STATUS === foundTask[0].statusID )) {
+                if(foundTask[0] && (Task.OPEN_STATUS === foundTask[0].statusID || Task.RE_OPEN_STATUS === foundTask[0].statusID )) {
                     // change status of this task to close status
                     await Task.task.update({ 
-                        statusID: CLOSE_STATUS
+                        statusID: Task.CLOSE_STATUS
                     }, {
                         where: {
                             id: id,

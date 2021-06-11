@@ -2,8 +2,8 @@ const express = require("express");
 
 const router = express.Router();
 
-const task_controller = require("./../controllers/task");
-const auth = require("./../utils/auth");
+const task_controller = require("@controller/task");
+const auth = require("@util/auth");
 
 router.use("/", auth.auth(), (req, res, next) => { // check permission
     // only basic can continue

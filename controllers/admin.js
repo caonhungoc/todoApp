@@ -1,9 +1,9 @@
-const User = require("./../models/user");
+const User = require("@model/user");
 const { body,validationResult, buildCheckFunction  } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("config");
-const Task = require('./../models/task');
+const Task = require('@model/task');
 
 const checkBodyAndQuery = buildCheckFunction(['body', 'query']);
 
@@ -46,25 +46,18 @@ exports.admin_alltask_get = [
     async (req, res, next) => {
         
         try {
-            // const errors = validationResult(req);
-            // Find user with escaped and trimmed data.
-            // if(errors.isEmpty()) {
-                let foundTask = await Task.task.findAll({
-                    where: {
-                        statusID: req.params.statusID
-                    }
-                });
-
-                if(foundTask[0]) {
-                    //send result
-                    res.send(foundTask); 
-                } else {
-                    return res.send("task not found!");
+            let foundTask = await Task.task.findAll({
+                where: {
+                    statusID: req.params.statusID
                 }
-            // }
-            // else {
-            //     res.send("Something wrong0");
-            // }
+            });
+
+            if(foundTask[0]) {
+                //send result
+                res.send(foundTask); 
+            } else {
+                return res.send("task not found!");
+            }
         } catch(e) {
             console.log(e);
             res.send("Something wrong 1");
