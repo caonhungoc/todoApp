@@ -1,7 +1,7 @@
 const User = require("@model/user");
 const Task = require('@model/task');
-const { body,validationResult } = require("express-validator");
-
+const { body,validationResult, buildCheckFunction } = require("express-validator");
+const checkBodyAndQuery = buildCheckFunction(['body', 'query']);
 exports.task_create_post = [
     // Validate and sanitise fields.
     body('title', 'name must not be empty.').trim().isLength({ min: 1 }).escape(),
@@ -214,7 +214,7 @@ exports.task_remove_delete = [
     async (req, res, next) => {
         
         try {
-            const { id } = req.params.id;
+            const { id } = req.params;
             // Extract the validation errors from a request.
             const errors = validationResult(req);
 

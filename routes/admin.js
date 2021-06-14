@@ -4,7 +4,7 @@ const express = require("express");
 const router = express.Router();
 
 const admin_controller = require("@controller/admin");
-const auth = require("@utils/auth");
+const auth = require("@util/auth");
 
 router.use("/", auth.auth(), (req, res, next) => { // check permission
     // only admin can coninue

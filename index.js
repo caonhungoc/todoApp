@@ -18,10 +18,10 @@ app.use(cors({
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
-app.use('api/user', routeUser);
-app.use('api/login', routeAuthen);
-app.use('api/task', routeTask);
-app.use('api/management', routeManagement);
+app.use('/api/user', routeUser);
+app.use('/api/login', routeAuthen);
+app.use('/api/task', routeTask);
+app.use('/api/management', routeManagement);
 
 db.connectDB();
 

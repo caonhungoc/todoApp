@@ -4,7 +4,7 @@ const router = express.Router();
 
 // const user_controller = require("./../controllers/user");
 const user_controller = require("@controller/user");
-const auth = require("./../utils/auth");
+const auth = require("@util/auth");
 
 // POST request to create a user
 router.post('/', user_controller.user_create_post);

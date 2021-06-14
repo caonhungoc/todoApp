@@ -9,8 +9,8 @@ Task:
 + /api/task - [post] create task
 + /api/task/:id - [get] single task
 + /api/task - [get] all tasks
-+ /api/task/:status= -[get] tasks by status
-+ /api/task/:id [put] update title and description of task
++ /api/task/:status -[get] tasks by status
++ /api/task/ [put] update title and description of task
 + /api/task/close/:id - [delete] close task
 + /api/task/reopen/:id - [put] re-open task
 + /api/task/:id  - [delete] remove task
