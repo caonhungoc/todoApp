@@ -1,6 +1,6 @@
 const User = require("@model/user");
 const Task = require('@model/task');
-const { body,validationResult, buildCheckFunction } = require("express-validator");
+const { body,validationResult, buildCheckFunction, param } = require("express-validator");
 const checkBodyAndQuery = buildCheckFunction(['body', 'query']);
 exports.task_create_post = [
     // Validate and sanitise fields.
@@ -22,7 +22,6 @@ exports.task_create_post = [
                         id: req.user.id
                     }
                 });
-                // SELECT * FROM USERs WHERE USERs.id = id;
 
                 if(foundUser[0]) {
                     // need get statusID from DB
@@ -74,7 +73,6 @@ exports.task_get_get = [
                         userID: req.user.id
                     }
                 });
-                // SELECT * FROM USERs WHERE USERs.email = email;
 
                 if(foundTask[0]) {
                     //send result
@@ -94,7 +92,7 @@ exports.task_get_get = [
 ];
 
 exports.admin_alltask_get = [ // must have admin right to access
-    checkBodyAndQuery('statusID').trim().isLength({ min: 1 }).escape(),
+    param('statusID').trim().isLength({ min: 1 }).escape(),
     // Process request after validation and sanitization.
     async (req, res, next) => {
         if("admin" === req.role) {
@@ -138,7 +136,6 @@ exports.task_getall_get = [
                         userID: req.user.id
                     }
                 });
-                // SELECT * FROM USERs WHERE USERs.email = email;
 
                 if(foundTask[0]) {
                     //send result
@@ -208,7 +205,7 @@ exports.task_update_put = [
 
 exports.task_remove_delete = [
     // Validate and sanitise fields.
-    // body('id', 'id must not be empty.').trim().isLength({ min: 1 }).escape(),
+    param('id', 'id must not be empty.').trim().isLength({ min: 1 }).escape(),
 
     // Process request after validation and sanitization.
     async (req, res, next) => {
@@ -254,7 +251,7 @@ exports.task_remove_delete = [
 
 exports.task_reopen_put = [
     // Validate and sanitise fields.
-    // body('id', 'id must not be empty.').trim().isLength({ min: 1 }).escape(),
+    param('id', 'id must not be empty.').trim().isLength({ min: 1 }).escape(),
 
     // Process request after validation and sanitization.
     async (req, res, next) => {
@@ -300,7 +297,7 @@ exports.task_reopen_put = [
 
 exports.task_close_delete = [
     // Validate and sanitise fields.
-    // body('id', 'id must not be empty.').trim().isLength({ min: 1 }).escape(),
+    param('id', 'id must not be empty.').trim().isLength({ min: 1 }).escape(),
 
     // Process request after validation and sanitization.
     async (req, res, next) => {
