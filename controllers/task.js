@@ -1,4 +1,3 @@
-// require('module-alias/register');
 const User = require("@model/user");
 const Task = require('@model/task');
 const { body,validationResult } = require("express-validator");
@@ -57,13 +56,13 @@ exports.task_create_post = [
 
 exports.task_get_get = [
     // Validate and sanitise fields.
-    body('id', 'email must not be empty.').trim().isLength({ min: 1 }).escape(),
+    // body('id', 'email must not be empty.').trim().isLength({ min: 1 }).escape(),
 
     // Process request after validation and sanitization.
     async (req, res, next) => {
         
         try {
-            const { id } = req.body;
+            const { id } = req.params.id;
             // Extract the validation errors from a request.
             const errors = validationResult(req);
 
@@ -90,6 +89,35 @@ exports.task_get_get = [
         } catch(e) {
             console.log(e);
             res.send("Something wrong");
+        }
+    } 
+];
+
+exports.admin_alltask_get = [ // must have admin right to access
+    checkBodyAndQuery('statusID').trim().isLength({ min: 1 }).escape(),
+    // Process request after validation and sanitization.
+    async (req, res, next) => {
+        if("admin" === req.role) {
+            try {
+                let foundTask = await Task.task.findAll({
+                    where: {
+                        statusID: req.params.statusID
+                    }
+                });
+    
+                if(foundTask[0]) {
+                    //send result
+                    res.send(foundTask); 
+                } else {
+                    return res.send("task not found!");
+                }
+            } catch(e) {
+                console.log(e);
+                res.send("Something wrong 1");
+            }
+        }
+        else {
+            next();
         }
     } 
 ];
@@ -178,15 +206,15 @@ exports.task_update_put = [
     } 
 ];
 
-exports.task_remove_put = [
+exports.task_remove_delete = [
     // Validate and sanitise fields.
-    body('id', 'id must not be empty.').trim().isLength({ min: 1 }).escape(),
+    // body('id', 'id must not be empty.').trim().isLength({ min: 1 }).escape(),
 
     // Process request after validation and sanitization.
     async (req, res, next) => {
         
         try {
-            const { id } = req.body;
+            const { id } = req.params.id;
             // Extract the validation errors from a request.
             const errors = validationResult(req);
 
@@ -226,13 +254,13 @@ exports.task_remove_put = [
 
 exports.task_reopen_put = [
     // Validate and sanitise fields.
-    body('id', 'id must not be empty.').trim().isLength({ min: 1 }).escape(),
+    // body('id', 'id must not be empty.').trim().isLength({ min: 1 }).escape(),
 
     // Process request after validation and sanitization.
     async (req, res, next) => {
         
         try {
-            const { id } = req.body;
+            const { id } = req.params;
             // Extract the validation errors from a request.
             const errors = validationResult(req);
 
@@ -270,15 +298,15 @@ exports.task_reopen_put = [
     } 
 ];
 
-exports.task_close_put = [
+exports.task_close_delete = [
     // Validate and sanitise fields.
-    body('id', 'id must not be empty.').trim().isLength({ min: 1 }).escape(),
+    // body('id', 'id must not be empty.').trim().isLength({ min: 1 }).escape(),
 
     // Process request after validation and sanitization.
     async (req, res, next) => {
         
         try {
-            const { id } = req.body;
+            const { id } = req.params;
             // Extract the validation errors from a request.
             const errors = validationResult(req);
 

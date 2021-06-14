@@ -2,12 +2,24 @@ const express = require("express");
 
 const router = express.Router();
 
-const user_controller = require("./../controllers/user");
+// const user_controller = require("./../controllers/user");
+const user_controller = require("@controller/user");
+const auth = require("./../utils/auth");
 
-// POST request for create a user
-router.post('/create', user_controller.user_create_post);
+// POST request to create a user
+router.post('/', user_controller.user_create_post);
 
-// POST request for login
-router.post('/login', user_controller.user_login_post);
+router.use("/", auth.auth(), (req, res, next) => { // check permission
+    // only admin can continue
+    if(req.role && "admin" === req.role) {
+        next();
+    } else {
+        res.send("Something wrong");
+    }
+
+});
+
+// GET request to get all user
+router.get('/', user_controller.user_all_get);
 
 module.exports = router;

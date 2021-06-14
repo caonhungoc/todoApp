@@ -6,14 +6,14 @@
 - APIs in this app:
 
 Task:
-+ /api/tasks - [post] create task
-+ /api/tasks/:id - [get] single task
-+ /api/tasks - [get] all tasks
-+ /api/tasks/?status= -[get] tasks by status
-+ /api/tasks/:id [put] update title and description of task
-+ /api/tasks/close/:id - [delete] close task
-+ /api/tasks/reopen/:id - [put] re-open task
-+ /api/tasks/:id  - [delete] remove task
++ /api/task - [post] create task
++ /api/task/:id - [get] single task
++ /api/task - [get] all tasks
++ /api/task/:status= -[get] tasks by status
++ /api/task/:id [put] update title and description of task
++ /api/task/close/:id - [delete] close task
++ /api/task/reopen/:id - [put] re-open task
++ /api/task/:id  - [delete] remove task
 
 User:
 + /api/user - [post] create new user

@@ -4,17 +4,24 @@ const config = require("config");
 const app = express();
 const port = config.get('port');
 const db = require('@util/db');
+const cors = require('cors');
 
 const routeUser = require("@route/user");
-const routeAdmin =  require("@route/admin");
+const routeAuthen =  require("@route/authen");
 const routeTask =  require("@route/task");
+const routeManagement =  require("@route/admin");
+
+app.use(cors({
+    origin: "http://localhost:3333"
+}));
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
-app.use('/user', routeUser);
-app.use('/admin', routeAdmin);
-app.use('/task', routeTask);
+app.use('api/user', routeUser);
+app.use('api/login', routeAuthen);
+app.use('api/task', routeTask);
+app.use('api/management', routeManagement);
 
 db.connectDB();
 
