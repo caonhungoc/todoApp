@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize');
+const {Sequelize, Op } = require('sequelize');
 const db = require('@util/db');
 
 // const OPEN_STATUS = 1;
@@ -6,7 +6,7 @@ const db = require('@util/db');
 // const RE_OPEN_STATUS = 3;
 // const REMOVED_STATUS = 4;
 
-const task = db.sequelize.define('TASKs', {
+const task = db.sequelize.define('tasks', {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true

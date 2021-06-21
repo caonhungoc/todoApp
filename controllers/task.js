@@ -1,5 +1,6 @@
 const User = require("@model/user");
 const Task = require('@model/task');
+const { Op } = require("sequelize");
 const { body,validationResult, buildCheckFunction, param } = require("express-validator");
 const checkBodyAndQuery = buildCheckFunction(['body', 'query']);
 exports.task_create_post = [
@@ -107,11 +108,11 @@ exports.admin_alltask_get = [ // must have admin right to access
                     //send result
                     res.send(foundTask); 
                 } else {
-                    return res.send("task not found!");
+                    return res.send({message: "task not found!"});
                 }
             } catch(e) {
                 console.log(e);
-                res.send("Something wrong 1");
+                res.send({message: "Something wrong 1"});
             }
         }
         else {
@@ -133,7 +134,10 @@ exports.task_getall_get = [
             if(errors.isEmpty()) {
                 let foundTask = await Task.task.findAll({
                     where: {
-                        userID: req.user.id
+                        userID: req.user.id,
+                        statusID: {
+                            [Op.ne]: [Task.REMOVED_STATUS]
+                        }
                     }
                 });
 
@@ -141,15 +145,15 @@ exports.task_getall_get = [
                     //send result
                     res.send(foundTask); 
                 } else {
-                    return res.send("task not found!");
+                    return res.send({message: "task not found!"});
                 }
             }
             else {
-                res.send("Something wrong");
+                res.send({message: "Something wrong"});
             }
         } catch(e) {
             console.log(e);
-            res.send("Something wrong");
+            res.send({message: "Something wrong"});
         }
     } 
 ];
@@ -173,7 +177,10 @@ exports.task_update_put = [
                 let foundTask = await Task.task.findAll({
                     where: {
                         id: id,
-                        userID: req.user.id
+                        userID: req.user.id,
+                        statusID: {
+                            [Op.ne]: [Task.task.REMOVED_STATUS]
+                        }
                     }
                 });
 
@@ -234,17 +241,17 @@ exports.task_remove_delete = [
                             userID: req.user.id
                         }
                     });
-                    res.send("remove successfully"); 
+                    res.send({message: "remove successfully"}); 
                 } else {
-                    return res.send("task not found!");
+                    return res.send({message: "task not found!"});
                 }
             }
             else {
-                res.send("Something wrong");
+                res.send({message: "Something wrong"});
             }
         } catch(e) {
             console.log(e);
-            res.send("Something wrong");
+            res.send({message: "Something wrong"});
         }
     } 
 ];
@@ -280,17 +287,17 @@ exports.task_reopen_put = [
                             userID: req.user.id
                         }
                     });
-                    res.send("re-open successfully"); 
+                    res.send({message: "re-open successfully"}); 
                 } else {
-                    return res.send("task not found!");
+                    return res.send({message: "task not found!"});
                 }
             }
             else {
-                res.send("Something wrong");
+                res.send({message:"Something wrong"});
             }
         } catch(e) {
             console.log(e);
-            res.send("Something wrong");
+            res.send({message:"Something wrong"});
         }
     } 
 ];
@@ -326,17 +333,17 @@ exports.task_close_delete = [
                             userID: req.user.id
                         }
                     });
-                    res.send("closed successfully"); 
+                    res.send({message: "closed successfully"}); 
                 } else {
-                    return res.send("task not found!");
+                    return res.send({message: "task not found!"});
                 }
             }
             else {
-                res.send("Something wrong");
+                res.send({message: "Something wrong"});
             }
         } catch(e) {
             console.log(e);
-            res.send("Something wrong");
+            res.send({message: "Something wrong"});
         }
     } 
 ];

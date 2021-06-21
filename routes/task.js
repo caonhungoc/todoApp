@@ -45,7 +45,7 @@ router.delete('/:id', task_controller.task_remove_delete); // remove task and ca
 // PUT request to re-open a task
 router.put('/reopen/:id', task_controller.task_reopen_put); // re-open task that was not removed, change status to re-open
 
-// PUT request to close a task
+// DELETE request to close a task
 router.delete('/close/:id', task_controller.task_close_delete); // change status to close
 
 module.exports = router;

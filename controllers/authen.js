@@ -42,7 +42,10 @@ exports.user_login_post = [
 
                     //send token for frontend
                     //send result
-                    res.send(token); 
+                    res.send({
+                        token, 
+                        message : "login successfully"
+                    }); 
                 } else {
                     return res.send("user not found!");
                 }

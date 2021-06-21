@@ -9,13 +9,23 @@ const cors = require('cors');
 const routeUser = require("@route/user");
 const routeAuthen =  require("@route/authen");
 const routeTask =  require("@route/task");
-
-app.use(cors({
-    origin: "http://localhost:3333"
-}));
+    // origin: "http://localhost:4200/"
+app.use(cors());
+// app.use(cors({
+//     origin: "http://localhost:4200/"
+// }));
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+
+// app.get("/", (req, res) => {
+//     res.send({"name": "ngoc", "age": 21})
+// })
+
+// app.post("/", (req, res) => {
+//     const data = req.body;
+//     res.send({"name": "ngoc", "age": 21})
+// })
 
 app.use('/api/user', routeUser);
 app.use('/api/login', routeAuthen);
