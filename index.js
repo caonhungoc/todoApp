@@ -12,7 +12,8 @@ const routeTask =  require("@route/task");
     // origin: "http://localhost:4200/"
 app.use(cors());
 // app.use(cors({
-//     origin: "http://localhost:4200/"
+//     credentials: true,
+//     origin: "http://localhost:3333/"
 // }));
 
 app.use(express.urlencoded({extended: true}));

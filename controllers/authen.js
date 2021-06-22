@@ -44,7 +44,8 @@ exports.user_login_post = [
                     //send result
                     res.send({
                         token, 
-                        message : "login successfully"
+                        message : "login successfully",
+                        userName: foundUser[0].name
                     }); 
                 } else {
                     return res.send("user not found!");
