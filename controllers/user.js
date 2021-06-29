@@ -1,5 +1,5 @@
 const User = require("@model/user");
-const { body,validationResult } = require("express-validator");
+const { body,validationResult, query } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("config");
@@ -56,20 +56,38 @@ exports.admin_page_get = function(req, res, next) {
 };
 
 exports.user_all_get = [
-
+    query('page', 'page must be number, must not be empty').trim().isLength({ min: 1 }).isNumeric().escape(),
     // Process request after validation and sanitization.
     async (req, res, next) => {
         try {
+            const errors = validationResult(req);
+            if(!errors.isEmpty()) {
+                return res.send("Something wrong");
+            }
+
+            const offset = req.query.page;
+            
             // Find user with escaped and trimmed data.
             let foundUser = await User.user.findAll({
                 attributes: ['name', 'email', 'id'],
+                where: {
+                    roleID: 2
+                },
+                offset: (offset-1)*10, 
+                limit: 10 
+            });
+
+            const amount = await User.user.count({
                 where: {
                     roleID: 2
                 }
             });
 
             if(foundUser[0]) {
-                res.send(foundUser); 
+                res.send({
+                    foundUser,
+                    amount
+                }); 
             } else {
                 return res.send("user not found!");
             }

@@ -1,7 +1,7 @@
 const User = require("@model/user");
 const Task = require('@model/task');
 const { Op } = require("sequelize");
-const { body,validationResult, buildCheckFunction, param } = require("express-validator");
+const { body,validationResult, buildCheckFunction, param, query } = require("express-validator");
 const checkBodyAndQuery = buildCheckFunction(['body', 'query']);
 exports.task_create_post = [
     // Validate and sanitise fields.
@@ -94,19 +94,32 @@ exports.task_get_get = [
 
 exports.admin_alltask_get = [ // must have admin right to access
     param('statusID').trim().isLength({ min: 1 }).escape(),
+    query('page', 'page must be number, must not be empty').trim().isLength({ min: 1 }).isNumeric().escape(),
     // Process request after validation and sanitization.
     async (req, res, next) => {
         if("admin" === req.role) {
             try {
+                const offset = req.query.page;
                 let foundTask = await Task.task.findAll({
+                    where: {
+                        statusID: req.params.statusID
+                    },
+                    offset: (offset-1)*10, 
+                    limit: 10 
+                });
+    
+                const amount = await Task.task.count({
                     where: {
                         statusID: req.params.statusID
                     }
                 });
-    
+
                 if(foundTask[0]) {
                     //send result
-                    res.send(foundTask); 
+                    res.send({
+                        foundTask,
+                        amount
+                    }); 
                 } else {
                     return res.send({message: "task not found!"});
                 }
